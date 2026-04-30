@@ -23,7 +23,7 @@ public class Project {
     @Column(name = "project_name")
     private String projectName;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "project_manager_id")
     private User user;
 

@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -40,9 +42,9 @@ public class User {
     @NotNull
     private Integer experience;
 
-    @OneToOne(mappedBy = "user")
-    private Task task;
+    @OneToMany(mappedBy = "user")
+    private List<Task> tasks;
 
-    @OneToOne(mappedBy = "user")
-    private Project project;
+    @OneToMany(mappedBy = "user")
+    private List<Project> project;
 }
