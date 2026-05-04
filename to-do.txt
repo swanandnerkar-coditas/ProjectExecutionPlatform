@@ -41,3 +41,11 @@ about mapping logical understanding
 
 project user
 task user
+
+------------------------
+Info
+-----------------------
+1 project manager can have multiple projects
+2. Task status : first CREATED - ASSIGNED - IN_PROGRESS - BLOCKED / COMPLETED - IN_PROGRESS
+3. Exception at last : after doing with functionalities
+4. start date should be less than end data : later

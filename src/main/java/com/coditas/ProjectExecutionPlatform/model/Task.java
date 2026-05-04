@@ -2,9 +2,7 @@ package com.coditas.ProjectExecutionPlatform.model;
 
 import com.coditas.ProjectExecutionPlatform.enums.TaskStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -12,7 +10,9 @@ import java.time.LocalDate;
 @Table(name = "tasks")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Task {
 
     @Id
