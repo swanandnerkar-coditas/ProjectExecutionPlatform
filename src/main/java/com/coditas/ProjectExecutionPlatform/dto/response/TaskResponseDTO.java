@@ -18,9 +18,9 @@ import java.time.LocalDate;
 public class TaskResponseDTO {
     private Long task_id;
 
-    private Sprint sprint;
+    private Long sprintId;
 
-    private User user;
+//    private Long userId;
 
     private String description;
 

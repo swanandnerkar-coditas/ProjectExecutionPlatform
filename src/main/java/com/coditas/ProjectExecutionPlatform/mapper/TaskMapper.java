@@ -10,8 +10,9 @@ public class TaskMapper {
     public static TaskResponseDTO toDto(Task task){
         return TaskResponseDTO.builder()
                 .task_id(task.getTask_id())
-                .sprint(task.getSprint())
-                .user(task.getUser()).description(task.getDescription())
+                .sprintId(task.getSprint().getSprintId())
+//                .userId(task.getUser().getId())
+                .description(task.getDescription())
                 .dueDate(task.getDueDate()).taskStatus(task.getTaskStatus())
                 .priority(task.getPriority())
                 .build();
