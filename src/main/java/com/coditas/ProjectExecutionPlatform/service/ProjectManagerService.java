@@ -3,6 +3,7 @@ package com.coditas.ProjectExecutionPlatform.service;
 import com.coditas.ProjectExecutionPlatform.dto.request.AssignTaskRequestDTO;
 import com.coditas.ProjectExecutionPlatform.dto.request.SprintRequestDTO;
 import com.coditas.ProjectExecutionPlatform.dto.request.TaskRequestDTO;
+import com.coditas.ProjectExecutionPlatform.dto.request.TaskStatusRequestDTO;
 import jakarta.validation.Valid;
 
 public interface ProjectManagerService {
@@ -11,4 +12,6 @@ public interface ProjectManagerService {
     String createTask(@Valid TaskRequestDTO taskRequestDTO);
 
     String assignTask(@Valid AssignTaskRequestDTO assignTaskRequestDTO);
+
+    String updateTaskStatus(@Valid TaskStatusRequestDTO taskStatusRequestDTO);
 }

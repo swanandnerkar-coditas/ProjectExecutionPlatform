@@ -1,12 +1,11 @@
-package com.coditas.ProjectExecutionPlatform.dto.request;
+package com.coditas.ProjectExecutionPlatform.dto.response;
 
 import com.coditas.ProjectExecutionPlatform.enums.Priority;
+import com.coditas.ProjectExecutionPlatform.enums.TaskStatus;
 import com.coditas.ProjectExecutionPlatform.model.Sprint;
 import com.coditas.ProjectExecutionPlatform.model.User;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,18 +13,20 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
-public class TaskRequestDTO {
+public class TaskResponseDTO {
+    private Long task_id;
 
-    @NotNull
-    private Long sprintId;
+    private Sprint sprint;
 
-    @NotBlank
+    private User user;
+
     private String description;
 
-    @NotNull
     private LocalDate dueDate;
 
-    @Enumerated(EnumType.STRING)
+    private TaskStatus taskStatus;
+
     private Priority priority;
 }

@@ -27,7 +27,7 @@ public class AdminController {
     }
 
     @PostMapping("/project")
-    ResponseEntity<String> registerUser(@Valid @RequestBody ProjectRegistrationRequestDTO projectRegistrationRequestDTO){
+    ResponseEntity<String> createProject(@Valid @RequestBody ProjectRegistrationRequestDTO projectRegistrationRequestDTO){
         // will use DTO everywhere , doing with main functionality first
         String response = adminService.createProject(projectRegistrationRequestDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

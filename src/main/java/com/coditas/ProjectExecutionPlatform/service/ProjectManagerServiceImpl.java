@@ -3,6 +3,7 @@ package com.coditas.ProjectExecutionPlatform.service;
 import com.coditas.ProjectExecutionPlatform.dto.request.AssignTaskRequestDTO;
 import com.coditas.ProjectExecutionPlatform.dto.request.SprintRequestDTO;
 import com.coditas.ProjectExecutionPlatform.dto.request.TaskRequestDTO;
+import com.coditas.ProjectExecutionPlatform.dto.request.TaskStatusRequestDTO;
 import com.coditas.ProjectExecutionPlatform.enums.TaskStatus;
 import com.coditas.ProjectExecutionPlatform.exception.*;
 import com.coditas.ProjectExecutionPlatform.model.Project;
@@ -63,6 +64,8 @@ public class ProjectManagerServiceImpl implements ProjectManagerService{
                 .sprint(sprint)
                 .description(taskRequestDTO.getDescription())
                 .dueDate(taskRequestDTO.getDueDate())
+                .priority(taskRequestDTO.getPriority())
+                .project(sprint.getProject())
                 .taskStatus(TaskStatus.CREATED)
                 .build();
 
@@ -74,9 +77,6 @@ public class ProjectManagerServiceImpl implements ProjectManagerService{
             tasks.add(task);
             sprint.setTasks(tasks);
             sprintRepository.save(sprint);
-        }
-        catch (TeamMemberTaskLimitException e){
-            throw e;
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -99,9 +99,11 @@ public class ProjectManagerServiceImpl implements ProjectManagerService{
                 throw new TeamMemberTaskLimitException("1 Team member can't have more than 2 task at a time");
 
             // silly logic : based on condition only 2 tasks so assuming first task is IN_PROGRESS
-            Task task1 = numberOfTasks.getFirst();
-            task1.setTaskStatus(TaskStatus.IN_PROGRESS);
-            taskRepository.save(task1);
+            if(numberOfTasks.size() == 1) {
+                Task task1 = numberOfTasks.getFirst();
+                task1.setTaskStatus(TaskStatus.IN_PROGRESS);
+                taskRepository.save(task1);
+            }
 
             numberOfTasks.add(task);
             user.setTasks(numberOfTasks);
@@ -112,9 +114,36 @@ public class ProjectManagerServiceImpl implements ProjectManagerService{
             task.setTaskStatus(TaskStatus.ASSIGNED);
             taskRepository.save(task);
 
-        } catch (Exception e) {
+        }
+        catch (TeamMemberTaskLimitException e){
+            throw e;
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
         return "Task Assigned Successfully";
+    }
+
+    /*
+        Updating Task Status by Project Manager
+        Blocked : if they want
+        Completed : when raise to check & verified to completed
+        In progress : if not verified then again in progress
+     */
+    @Override
+    public String updateTaskStatus(TaskStatusRequestDTO taskStatusRequestDTO) {
+
+        try {
+            Task task = taskRepository.findById(taskStatusRequestDTO.getTaskId())
+                    .orElseThrow(() -> new TaskNotFoundException("Task not found for provided Id"));
+
+            task.setTaskStatus(taskStatusRequestDTO.getUpdatedTaskStatus());
+
+            taskRepository.save(task);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return "Task status updated successfully";
     }
 }

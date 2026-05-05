@@ -1,5 +1,6 @@
 package com.coditas.ProjectExecutionPlatform.model;
 
+import com.coditas.ProjectExecutionPlatform.enums.Priority;
 import com.coditas.ProjectExecutionPlatform.enums.TaskStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,6 +25,10 @@ public class Task {
     private Sprint sprint;
 
     @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @ManyToOne
     @JoinColumn(name = "team_memeber_id")
     private User user;
 
@@ -35,5 +40,8 @@ public class Task {
     @Enumerated(EnumType.STRING)
     @Column(name = "task_status")
     private TaskStatus taskStatus;
+
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
 
 }
