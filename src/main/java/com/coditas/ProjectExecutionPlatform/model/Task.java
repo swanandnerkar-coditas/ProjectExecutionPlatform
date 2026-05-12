@@ -18,7 +18,7 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long task_id;
+    private Long taskId;
 
     @ManyToOne
     @JoinColumn(name = "sprint_id")

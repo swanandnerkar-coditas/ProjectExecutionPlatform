@@ -3,6 +3,7 @@ package com.coditas.ProjectExecutionPlatform.service;
 import com.coditas.ProjectExecutionPlatform.dto.request.ProjectRegistrationRequestDTO;
 import com.coditas.ProjectExecutionPlatform.dto.request.UserRegistrationRequestDTO;
 import com.coditas.ProjectExecutionPlatform.dto.response.UserRegistrationResponseDTO;
+import com.coditas.ProjectExecutionPlatform.exception.DuplicateEmailException;
 import com.coditas.ProjectExecutionPlatform.exception.UserNotFoundException;
 import com.coditas.ProjectExecutionPlatform.model.Project;
 import com.coditas.ProjectExecutionPlatform.model.User;
@@ -31,6 +32,10 @@ public class AdminServiceImpl implements AdminService{
                 .role(userRegistrationRequestDTO.getRole())
                 .experience(userRegistrationRequestDTO.getExperience())
                 .build();
+
+        User userWithSameEmail = userRepository.findByEmail(user.getEmail());
+        if(userWithSameEmail != null)
+            throw new DuplicateEmailException("User with provided email already exist");
 
         try{
             userRepository.save(user);

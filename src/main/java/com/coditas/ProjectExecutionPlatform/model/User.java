@@ -49,4 +49,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Project> project;
+
+    @OneToMany(mappedBy = "user")
+    private List<TimeSheetEntry> timeSheetEntries;
 }

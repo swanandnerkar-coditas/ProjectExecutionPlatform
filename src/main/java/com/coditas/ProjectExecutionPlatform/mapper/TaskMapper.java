@@ -9,7 +9,7 @@ public class TaskMapper {
 
     public static TaskResponseDTO toDto(Task task){
         return TaskResponseDTO.builder()
-                .task_id(task.getTask_id())
+                .taskId(task.getTaskId())
                 .sprintId(task.getSprint().getSprintId())
 //                .userId(task.getUser().getId())
                 .description(task.getDescription())

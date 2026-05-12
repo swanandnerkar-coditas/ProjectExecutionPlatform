@@ -52,7 +52,7 @@ public class TaskServiceImpl implements TaskService{
             tasks = taskRepository.findByProject(project);
 
             for(Task task : tasks){
-                int index = Math.toIntExact(task.getTask_id());
+                int index = Math.toIntExact(task.getTaskId());
                 bucket[index]++;
             }
             constraints++;
@@ -65,7 +65,7 @@ public class TaskServiceImpl implements TaskService{
 
             tasks = taskRepository.findByUser(user);
             for(Task task : tasks){
-                int index = Math.toIntExact(task.getTask_id());
+                int index = Math.toIntExact(task.getTaskId());
                 bucket[index]++;
             }
             constraints++;
@@ -75,7 +75,7 @@ public class TaskServiceImpl implements TaskService{
         if(filterRequestDTO.getTaskStatus() != null){
             tasks = taskRepository.findByTaskStatus(filterRequestDTO.getTaskStatus());
             for(Task task : tasks){
-                int index = Math.toIntExact(task.getTask_id());
+                int index = Math.toIntExact(task.getTaskId());
                 bucket[index]++;
             }
             constraints++;
@@ -85,7 +85,7 @@ public class TaskServiceImpl implements TaskService{
         if(filterRequestDTO.getPriority() != null){
             tasks = taskRepository.findByPriority(filterRequestDTO.getPriority());
             for(Task task : tasks){
-                int index = Math.toIntExact(task.getTask_id());
+                int index = Math.toIntExact(task.getTaskId());
                 bucket[index]++;
             }
             constraints++;
@@ -99,7 +99,7 @@ public class TaskServiceImpl implements TaskService{
         else if(filterRequestDTO.getStartDate() != null){
             tasks = taskRepository.findByDueDateBetween(startDate, endDate);
             for(Task task : tasks){
-                int index = Math.toIntExact(task.getTask_id());
+                int index = Math.toIntExact(task.getTaskId());
                 bucket[index]++;
             }
             constraints++;
@@ -109,7 +109,7 @@ public class TaskServiceImpl implements TaskService{
         if(filterRequestDTO.getKeyword() != null){
             tasks = taskRepository.findByDescriptionContainingIgnoreCase(filterRequestDTO.getKeyword());
             for(Task task : tasks){
-                int index = Math.toIntExact(task.getTask_id());
+                int index = Math.toIntExact(task.getTaskId());
                 bucket[index]++;
             }
             constraints++;
