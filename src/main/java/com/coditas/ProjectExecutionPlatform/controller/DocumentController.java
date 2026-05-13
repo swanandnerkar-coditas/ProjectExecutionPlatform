@@ -28,13 +28,13 @@ public class DocumentController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping({"entryId"})
+    @GetMapping("{entryId}")
     ResponseEntity<DocumentResponseDTO> searchDocuments(@PathVariable Long entryId ){
         DocumentResponseDTO documents = documentService.searchDocuments(entryId);
         return new ResponseEntity<>(documents, HttpStatus.OK);
     }
 
-    @DeleteMapping({"entryId"})
+    @DeleteMapping("{entryId}")
     ResponseEntity<String> deleteDocument(@PathVariable Long entryId){
         String response = documentService.deleteDocument(entryId);
         return new ResponseEntity<>(response, HttpStatus.OK);

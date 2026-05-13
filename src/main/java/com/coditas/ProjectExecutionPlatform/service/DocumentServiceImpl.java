@@ -67,7 +67,9 @@ public class DocumentServiceImpl implements DocumentService{
                 .orElseThrow(() -> new DocumentNotFoundException("Document not found for provided time sheet entry"));
 
         try{
+            timeSheetEntry.setDocument(null);
             documentRepository.delete(document);
+            timeSheetRepository.save(timeSheetEntry);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
