@@ -3,14 +3,27 @@ package com.coditas.ProjectExecutionPlatform.service;
 import com.coditas.ProjectExecutionPlatform.dto.request.DocumentRequestDTO;
 import com.coditas.ProjectExecutionPlatform.dto.response.DocumentResponseDTO;
 import com.coditas.ProjectExecutionPlatform.exception.DocumentNotFoundException;
+import com.coditas.ProjectExecutionPlatform.exception.FileFormatNotSupportedException;
 import com.coditas.ProjectExecutionPlatform.exception.TimeSheetEntryNotFoundException;
 import com.coditas.ProjectExecutionPlatform.model.Document;
 import com.coditas.ProjectExecutionPlatform.model.TimeSheetEntry;
 import com.coditas.ProjectExecutionPlatform.repository.DocumentRepository;
 import com.coditas.ProjectExecutionPlatform.repository.TimeSheetRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.util.List;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService{
@@ -18,10 +31,10 @@ public class DocumentServiceImpl implements DocumentService{
     private final DocumentRepository documentRepository;
     private final TimeSheetRepository timeSheetRepository;
 
-    /*
-        verify whether entry id valid
-        then assign that id to document
-     */
+    private final String uploadDir = "src/main/resources";
+    private static final List<String> validFileFormats = List.of(".txt", ".png", ".pdf");
+
+    // Old logic
     @Override
     public String createDocument(DocumentRequestDTO documentRequestDTO) {
 
@@ -42,6 +55,40 @@ public class DocumentServiceImpl implements DocumentService{
         return "Document Submitted Successfully for Time Sheet Entry : "+entryId;
     }
 
+    /*
+        create folder for each new date
+        if already present then add in that one only
+     */
+    @Override
+    public String uploadDocument(MultipartFile multipartFile) throws IOException {
+
+        String fileName = multipartFile.getOriginalFilename();
+        String fileType = multipartFile.getContentType();
+        long size = multipartFile.getSize();
+
+        log.info("File Type : "+ fileType);
+        int index = multipartFile.getOriginalFilename().lastIndexOf('.');
+        if(index > 0){
+            String format = fileName.substring(index);
+            if(!validFileFormats.contains(format)) throw new FileFormatNotSupportedException(fileType+" not supported !");
+        }
+
+        String dailyFolder = String.valueOf(LocalDate.now());
+
+        Path path = Paths.get(uploadDir+"/"+dailyFolder, fileName);
+        Files.createDirectories(path.getParent());
+        Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+        return "File / Documents Saved Successfully";
+    }
+
+    @Override
+    public String downloadDocuments(String fileName) {
+
+        Path path = Paths.get(uploadDir).resolve(fileName).toAbsolutePath();
+        return path.toString();
+    }
+
     @Override
     public DocumentResponseDTO searchDocuments(Long entryId) {
 
@@ -58,22 +105,19 @@ public class DocumentServiceImpl implements DocumentService{
     }
 
     @Override
-    public String deleteDocument(Long entryId) {
+    public String deleteDocument(String fileName) throws IOException {
 
-        TimeSheetEntry timeSheetEntry = timeSheetRepository.findById(entryId)
-                .orElseThrow(() -> new TimeSheetEntryNotFoundException("Provided Time sheet entry not found"));
+//        Path path = Paths.get(uploadDir).resolve(fileName).toAbsolutePath().normalize();
 
-        Document document = documentRepository.findByTimeSheetEntry(timeSheetEntry)
-                .orElseThrow(() -> new DocumentNotFoundException("Document not found for provided time sheet entry"));
+        Path path = Paths.get(uploadDir, fileName);
 
-        try{
-            timeSheetEntry.setDocument(null);
-            documentRepository.delete(document);
-            timeSheetRepository.save(timeSheetEntry);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if(Files.exists(path)){
+            Files.delete(path);
+            return "Document Deleted Successfully";
         }
 
-        return "Document Deleted Successfully";
+        throw new FileNotFoundException("File / Document not found");
     }
+
+
 }

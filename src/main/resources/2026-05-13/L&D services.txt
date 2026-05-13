@@ -1,0 +1,150 @@
+Learning & Development Services : Platform
+
+( considering only for 1 Organization )
+----------------------------------------------
+
+Requirement Gathering : 
+	1. Needs / Information
+	2. Different Technologies can be their : Info about training module
+
+Our work : 
+	1. Creating training modules
+	2. providing YoutTube links OR any other links
+
+Training Module : 
+	1. Provided Deadline to Complete ( based on enrollement date + require amount of dates to complete )
+	2. Assignment : 
+		1) Quiz 
+		2) Task / Problem statement 
+		-> should be reviewed by someone then update Status : CLEARED, FAILED
+	3. If CLEARED assignmeent : Generate Certificate
+
+Workforce Management team : 
+	1. Able to see employee date & status
+	Data : 1) employee currently enrolled 2) not enrolled 3) apply different filters to search (eg. Emp_Status : ON_BENCH, ON_PROJECT) etc... course related maybe
+	Status : ( Traning_Module_Status or Course_Status ) 
+		Cases:
+			case 1: just enrolled but not started OR not completed yet -> PENDING [ ON_GOING, IN_PROGRESS ]
+			case 2: 100% completed -> COMPLETED
+			case 3: (only after 100% course completion)Assignemnt : cleared -> CERTIFIED, not cleared -> COMPLETED [ or keeping COMPLETED_CERTIFIED, COMPLETED_UNCERTIFIED ]
+
+
+----------------------------------------------
+
+Flow : 
+1. At first / start of application first page User will see form of LOGIN with fields username and password, after filling those fields click on login button
+	if the credentials are correct then your're successfully logged in and redirected to dashboard based on user ROLE
+	if not then message shown : "Incorrect Credential" and stay on same page
+2. Role wise Dashboard :
+	ADMIN :
+		ADMIN dashboard opens and has navigation bar on left side, with different buttons on it
+		Button "View Profile" : clicking on it redirected to user profile page
+			which has user(ADMIN) information [ username, role, joining date, experience ]
+		Button "Create Training Course" : click on button which will redirected to create training course page
+			It has fields Course name and duration ( time provided to complete it )
+			button "create" -> clicking on it'll create course
+		Button "Add employee" : click on button which will redirected to register employee page
+			where you've form to fill & enter user details to create employee
+			fields : username, password, role, experience ( setting password DOB initially then employee can change )
+			button "add" -> clicking on it new employee will be registered
+		Button "Employee data" : click on button which will redirected to employee data page
+			it has 2 drop down list ( based on there value you're applying filter to get result )
+				1. Employee, Status : ON_BENCH, ON_PROJECT
+				2. Employee, Course : ENROLLED, NOT_ENROLLED
+			button "search" -> clicking on it, based on provided filter will give result : list of employee will be shown on page
+	
+	EMPLOYEE :
+		EMPLOYEE dashboard opens and has navigation bar on left side, with different buttons 
+		Button "View Profile" : clicking on it redirected to user profile
+			which has user(EMPLOYEE) information [ username, role, joining date, experience ]
+			at bottom has button "Change password" clicking on it open page where form has 2 fields : oldpassword & newpassword , 1 button "update" -> clicking on it
+				if oldpassword is right ( current password is equal to provided old password) then update password of Employee with update password field
+				if not then show message : "Incorrect Old password" on same page
+		Button "Courses" : clicking on it redirected to courses page
+			where all the courses are listed with button "enroll" on side, by clicking on it Employee gets enrolled in course staying on same page
+			only list those courses which are not enrolled by Employee already
+		Button "My/Enrolled Courses" : clicking on it redirected to enrolled course page
+			where all courses are listed which are enrolled by Employee with button "Visit Course" on side
+			clicking on "Visit Course" -> redirected to course page
+				1. should able see percentage of completion
+				2. list of YouTube videos or any links with check box ( arrange 2 columns : 1 for resources another column of check boxes to mark as complete ), click on it when complete that resource.
+				3. at last Assignment section with "add" button 
+					-> "add" button -> clicking on it assignment will submitted
+						if added then Course status is CERTIFIED
+					if not then just COMPLETED ( 100% completed but not certified yet till assignment is submit )
+		Button "Certificates" : clicking on it redirected to certificates page
+			where all certificates will be listed : where Employee Course Status is CERTIFIED ( course 100% complete & assignment is CLEARED )
+		
+
+
+2. API endpoints
+
+Method		Endpoint			Description
+-------------------------------------------------------------------------------------
+POST	/auth/login
+
+GET	/employee/profile
+GET	/employee/certificates 			"Certificates" -> view certificates
+GET	/employee/courses	 		"courses" -> view all courses
+GET	/employee/enrolled-courses		"enrolled courses" -> show enrolled courses
+GET	/employee/enroll-course/{c_id} 		"enroll" button -> enroll into that course
+POST	/employee/send-assignment	//
+
+GET 	/admin/profile
+POST	/admin/register-employee		"add" button -> register employee
+POST	/admin/create-course			"create" button -> create course
+GET	/admin/employee-data?status=&course=	"search" button -> get employee data based on filters
+
+
+
+3. DB schema : 
+
+enum Role { EMPLOYEE, ADMIN, L&D, MANAGER }
+
+User
+-----
+user_id 
+username
+password
+role
+experience
+joining date
+noOfEnrollments : Integer, count of enrollments ( Query : In Enrollment where employeeId & course_status = PENDING, COMPLETED)
+
+Course
+------
+course_id
+name
+duration
+
+Enrollment
+-----------
+enrollment_id
+course_id
+user_id : user_id ( considering / check ROLE = EMPLOYEE )
+deadline : current date + duration
+course_status ( COURSE_STATUS = PENDING, COMPLETED, CERTIFIED )
+assignmentStatus ( PENDING, CLEARED, FAILED ) 
+
+
+
+Draw web wire flow on page for each role : UI thinking requirement
+Assignment status updation based on what / when
+
+can add multiple modules as well for per course to track progress for that but keeping it simple
+
+
+check whether required to keep Assignment status, or just an overhead
+may be required to fetch employee who submitted task and yet to check 
+
+
+----------------------------------------------
+Other:
+can't upload or give assessment after course completion
+check both to update course status : whether course is 100% complete & assignment is CLEARED then -> CERTIFIED
+
+security part abstract idea : 
+	authentication user ( employee, admin, traning module management team )
+
+providing end point to update status of assignment
+Assignment status required : to check whether assignment is completed or not, can use to filter out employee

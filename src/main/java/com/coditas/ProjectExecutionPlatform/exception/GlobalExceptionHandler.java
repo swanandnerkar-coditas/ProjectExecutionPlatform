@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartException;
 
 import java.time.LocalDateTime;
 
@@ -113,6 +115,50 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DocumentNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleDocumentNotFoundException(DocumentNotFoundException e){
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .message(e.getMessage())
+                .status(HttpStatus.BAD_REQUEST)
+                .localDateTime(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FileFormatNotSupportedException.class)
+    public ResponseEntity<ErrorResponse> handleFileFormatNotSupportedException(FileFormatNotSupportedException e){
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .message(e.getMessage())
+                .status(HttpStatus.BAD_REQUEST)
+                .localDateTime(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ErrorResponse> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e){
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .message("File size is too large, exceeding limit")
+                .status(HttpStatus.BAD_REQUEST)
+                .localDateTime(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MultipartException.class)
+    public ResponseEntity<ErrorResponse> handleMultipartException(MultipartException e){
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .message("Error Occurred or Something went wrong while File / Document upload")
+                .status(HttpStatus.BAD_REQUEST)
+                .localDateTime(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleFileNotFoundException(FileNotFoundException e){
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .message(e.getMessage())
                 .status(HttpStatus.BAD_REQUEST)

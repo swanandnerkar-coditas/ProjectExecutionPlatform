@@ -1,0 +1,65 @@
+ExceptionHandler : return ResponseEntity with default RFC 9457 formate
+ControllerAdvice : ( assuming should works with View Resolver : )
+RestConrollerAdvice : RestController + ControllerAdvice ( works with JSON )
+
+Controller : work with view resolvers ( pages ) return "view.jsp", html etc
+RestController : Controller + ResponseBody ( return JSON response ) 
+
+context : ControllerAdvice
+2 ways of thinking: 
+1. it should look for View
+2. how return JSON formate ( converts inot JSON ) because through RestControllerAdvice its by default convert into JSON only
+
+curr doubt : 
+diff
+controlleradvice : should look for view, why works with response entity, how json returns
+is Response Enitity is in JSON format ( uses ResponseBody ) 
+-> not true, because when we return String it shows string only not string value in JSON format 
+	if not then how ControllerAdvice works with it
+is it necessary / restricted that exceptionhandler return ResponseEntity always -> ( may not because can use ResponseBody with Res..Status or RestConAdv) 
+
+After comming to ControllerAdvice / RestControllerAdvice & handle whether it returns
+Postman ( response ) from their only or come back to controller & then return 
+-> as exception arrises flow broke ( controller -> service - exception) so goes to controlleradvice & from their no link to go controller again, so return from their only
+( proof : error response from controlleradvice & normal from controller ) 
+
+then why use RestControllerAdvice
+factory method & direct instantiation 
+code check: good coading practice
+
+Doubt : 
+Detached & Persist state 
+circular 
+logic 
+
+null : criteria 
+token to filter : 
+	not related because when working with Token goes for UPAT not UPAF, DIFFERENCE
+web token : usaga working  
+security context holder not working
+
+validation exception : handle throw global exception handler
+what optional type return : 
+	-> 
+
+why only provide username : becaues check whether user present or not 
+
+why 2 ways to create object for UsernamePasswordAuthenticationToken : constrcutor, static method
+SecurityContextHolder.getContext().getAuthentication() how works
+know the flow
+
+need to know validation & extraction logic & flow
+
+expiration timeout through exception handler for token validation
+
+EnableWebSecurity with Component is it necessary
+
+10 april: 
+role Vs authority
+null credentials
+security context holder
+refresh token
+assignment to do : OAuth and JWT
+401 vs 403 : unsolved 
+name conflict
+ROLE_ when where checks by Spring.security
