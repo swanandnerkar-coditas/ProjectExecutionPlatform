@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DocumentResponseDTO {
 
-    private String name;
+    private String fileName;
 
-    private String githubLink;
+    private String fileAddress;
 }

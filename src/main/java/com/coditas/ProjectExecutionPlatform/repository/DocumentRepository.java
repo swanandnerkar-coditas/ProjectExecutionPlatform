@@ -10,4 +10,6 @@ import java.util.Optional;
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Long> {
     Optional<Document> findByTimeSheetEntry(TimeSheetEntry timeSheetEntry);
+
+    Optional<Document> findByFileName(String s);
 }

@@ -5,15 +5,16 @@ import com.coditas.ProjectExecutionPlatform.dto.response.DocumentResponseDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
 
 public interface DocumentService {
-    String createDocument(DocumentRequestDTO documentRequestDTO);
 
-    DocumentResponseDTO searchDocuments(Long entryId);
+    List<DocumentResponseDTO> searchDocuments();
 
-    String deleteDocument(String fileName) throws IOException;
+    String deleteDocument(LocalDate date, String fileName) throws IOException;
 
-    String uploadDocument(MultipartFile multipartFile) throws IOException;
+    String uploadDocument(MultipartFile multipartFile, Long timeSheetEntryId) throws IOException;
 
-    String downloadDocuments(String fileName);
+    String downloadDocuments(LocalDate date, String fileName);
 }

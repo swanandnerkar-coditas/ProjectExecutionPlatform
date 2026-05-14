@@ -17,11 +17,11 @@ public class Document {
     @Column(name = "document_id")
     private Long documentId;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(name = "file_name", nullable = false)
+    private String fileName;
 
-    @Column(name = "github_link", nullable = false)
-    private String githubLink;
+    @Column(name = "file_address", nullable = false)
+    private String fileAddress;
 
     @OneToOne
     @JoinColumn(name = "time_sheet_entry")
