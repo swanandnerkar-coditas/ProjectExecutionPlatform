@@ -1,0 +1,76 @@
+Problem statment:
+restaruant owner ,multiple owners
+issues : 
+	swiggy, zomotao : they just list them and charging lot of money
+	still have to pay lot of money without profit from them 
+
+create own platform & will not charge much 
+only take maintaince fees : required for servers
+
+since it's not universal , only for friend circle 
+closed application : invitation only application requires invitation
+
+ADMIN------------->
+	1. invitation send via email by admin / me only 
+
+
+OWNER----------->
+	1. once they accept inviation they'll fill registration form
+	2. because owners have multiple branches : 
+		they will not fill on their own initially, on email : 
+			name, company name, & add email of person who they want to take up entire form filling managing things (RESTAURANT_MANAGER)
+	3. should see performance (everything that manager can do + extra things ) 
+
+
+RESTAURANT_MANAGER---->
+	1. he will take fill his details, 
+	2. this person will create restaurant in that chain ( basically branches of that restaurant & assign BRANCH_MANAGER to each Branch) 
+		eg. 1 pune , athrav manager ......
+	3. they'll also get email & they'll add menu of their restaurant 
+	4. each dish : dishname, veg, price, description & calories that each dish has
+	5. at least 5 photos must add more for each dish
+	6. also add small description for staff to tell staff whether dish is spicy, ingredent should take care of ( basically notes related to particalure dish ) 
+	7. add ingredentiant with quantity required
+	8. make group & produce report (filter search / report) : eg .most/least popular dishes, max/least used ingrident, which waiters/staff made the most money
+	9. should able to see :  
+		total revenue = ( incoming + outgoiong ), 
+		details outgoing,
+		cost of raw materials,
+		able to see how much money you have made
+
+BRANCH_MANAGER ------------>
+	1. add tables : no of tables ( 10, 50) with table numbers & assign table to particular staff memeber ( table 1 ; rohit )
+	2. also create staff member ( manager also hire for kichten staff : chef, cleaner etc......)
+	3. all employee systems has salaries defined, must have photo as well
+
+
+customer usage :
+	1. not required any authentication or registration, interface will have fields : table number, order placement then at last can ask for bill
+	2. staff goes to Customer* , they order , clicks dish add quanitity , at end bill generated in PDF formate
+	3. if staff is absent then manage by other staff & should give reason why he took
+
+
+Other things ----------->
+	1. if Restaurant in luxury segment in 18 %, normal 5 % , if have liqure then has additional watt of 5%
+
+Q : will staff apply & then manager assign or manager assign they has to 
+
+manager should able to see : total revenue = ( incoming + outgoiong ), details outgoing , cost of raw materials , able to see how much money you have made
+manager : 
+owner : should see performance ( manager + extra things ) 
+total revenue, loss, profit of all restraurant 
+
+based on report : can delete least 2 restrautnt or delete any if want
+
+every night : owner, manager receive email with accounting details of that particular day 
+filter , query , sorting , pagination
+
+once kitchen gets an order : also mark that order as done 
+in case customer disstatification : manager can apply discount : should not be more than 25%
+
+1 restaurant owner has multiple restaurant & has multiple chains as well
+
+deadline : tommorrow 5.30 user manual
+DB schema by mentors
+monday EOD development
+reviews : Tuesday Code Review 

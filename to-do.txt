@@ -1,0 +1,51 @@
+Schema:
+
+ROLE : PROJECT_MANAGER, TEAM_MEMBER
+
+User
+-----
+user_id
+username
+name
+email
+password
+Role
+experience
+
+Projects
+---------
+project_id
+project_name
+user_id ( ROLE = PROJECT_MANAGER, can't be at user because every user can't assign to project )
+description
+deadline
+client
+
+Sprints
+---------
+sprint_id
+project_id
+start_date
+end_date
+duration : consider in days so Integer
+
+Tasks
+------
+task_id
+sprint_id
+user_id ( ROLE = TEAM_MEMBER )
+description
+
+Question:
+about mapping logical understanding
+
+project user
+task user
+
+------------------------
+Info
+-----------------------
+1 project manager can have multiple projects
+2. Task status : first CREATED - ASSIGNED - IN_PROGRESS - BLOCKED / COMPLETED - IN_PROGRESS
+3. Exception at last : after doing with functionalities
+4. start date should be less than end data : later
