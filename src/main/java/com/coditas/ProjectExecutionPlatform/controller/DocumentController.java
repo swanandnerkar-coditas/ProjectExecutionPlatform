@@ -42,4 +42,10 @@ public class DocumentController {
         String path = documentService.downloadDocuments(date, fileName);
         return new ResponseEntity<>(path, HttpStatus.OK);
     }
+
+    @GetMapping("/{date}")
+    ResponseEntity<List<DocumentResponseDTO>> searchDateWiseDocuments(@PathVariable LocalDate date){
+        List<DocumentResponseDTO> documents = documentService.searchDateWiseDocuments(date);
+        return new ResponseEntity<>(documents, HttpStatus.OK);
+    }
 }

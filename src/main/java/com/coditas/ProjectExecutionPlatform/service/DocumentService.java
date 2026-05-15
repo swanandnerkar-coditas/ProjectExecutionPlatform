@@ -17,4 +17,6 @@ public interface DocumentService {
     String uploadDocument(MultipartFile multipartFile, Long timeSheetEntryId) throws IOException;
 
     String downloadDocuments(LocalDate date, String fileName);
+
+    List<DocumentResponseDTO> searchDateWiseDocuments(LocalDate date);
 }
